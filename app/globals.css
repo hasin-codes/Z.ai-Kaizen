@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #ff4d94;
+  --color-sidebar-bg: #F5FEFD;
+  --color-main-bg: #F5FEFD;
+  --color-border: transparent;
+  --color-card-bg: rgba(255, 255, 255, 0.4);
+}
+
+:root {
+  --app-padding: 48px;
+  --sidebar-collapsed-width: 0px;
+  --sidebar-expanded-width: 260px;
+  --topbar-height: 48px;
+}
+
+body {
+  background-color: var(--color-main-bg);
+  color: #1a1a1a;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Custom scrollbar - thin and non-invasive */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Firefox scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+/* Ambient Background Animation */
+@keyframes ambient-scale {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-ambient-scale {
+  animation: ambient-scale 20s ease-in-out infinite alternate;
+}

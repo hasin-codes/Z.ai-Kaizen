@@ -1,24 +1,44 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 interface GenImageCardProps {
     className?: string;
 }
 
 export const GenImageCard: React.FC<GenImageCardProps> = ({ className }) => {
+    const [animationsPaused, setAnimationsPaused] = useState(false);
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        // Pause after 5 loops (~30s for 6s animations)
+        const timer = setTimeout(() => {
+            setAnimationsPaused(true);
+        }, 30000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    const handleMouseEnter = () => setAnimationsPaused(false);
+    const handleMouseLeave = () => setAnimationsPaused(true);
+
     return (
-        <div className={`relative w-full aspect-[4/3] bg-white rounded-[1.25rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden flex flex-col group transition-all duration-700 hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-1 cursor-default ${className || ""}`}>
+        <div
+            ref={cardRef}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className={`relative w-full aspect-[4/3] bg-white rounded-[1.25rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden flex flex-col group transition-all duration-700 hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-1 cursor-default ${className || ""}`}
+        >
 
             {/* Visual Header: Creative Studio */}
             <div className="relative flex-1 w-full bg-[#FAFAFA] overflow-hidden font-sans p-4">
 
-                {/* Background Atmosphere */}
-                <div className="absolute inset-0 opacity-60 overflow-hidden">
+                {/* Background Atmosphere - No blur */}
+                <div className="absolute inset-0 opacity-40 overflow-hidden">
                     <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-b from-rose-50 via-purple-50 to-blue-50"></div>
-                    <div className="absolute top-[10%] left-[5%] w-32 h-32 bg-orange-200/30 rounded-full blur-[60px] mix-blend-multiply animate-blob"></div>
-                    <div className="absolute bottom-[10%] right-[5%] w-36 h-36 bg-indigo-200/30 rounded-full blur-[60px] mix-blend-multiply animate-blob" style={{ animationDelay: '2s' }}></div>
-                    <div className="absolute top-[35%] right-[25%] w-28 h-28 bg-pink-200/30 rounded-full blur-[60px] mix-blend-multiply animate-blob" style={{ animationDelay: '4s' }}></div>
+                    <div className="absolute top-[10%] left-[5%] w-32 h-32 bg-orange-200/20 rounded-full blur-0 mix-blend-multiply animate-blob"></div>
+                    <div className="absolute bottom-[10%] right-[5%] w-36 h-36 bg-indigo-200/20 rounded-full blur-0 mix-blend-multiply animate-blob" style={{ animationDelay: '2s' }}></div>
+                    <div className="absolute top-[35%] right-[25%] w-28 h-28 bg-pink-200/20 rounded-full blur-0 mix-blend-multiply animate-blob" style={{ animationDelay: '4s' }}></div>
                 </div>
 
                 {/* Main 3D Composition */}
@@ -28,16 +48,9 @@ export const GenImageCard: React.FC<GenImageCardProps> = ({ className }) => {
                         {/* Scene Container */}
                         <div className="absolute inset-0 overflow-hidden rounded-lg">
 
-                            {/* Layer A: Wireframe Sketch */}
+                            {/* Layer A: Wireframe Sketch - No filter blur */}
                             <svg className="absolute inset-0 w-full h-full" viewBox="0 0 240 180" preserveAspectRatio="xMidYMid meet">
-                                <defs>
-                                    <filter id="pencil-texture">
-                                        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise" />
-                                        <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" />
-                                    </filter>
-                                </defs>
-
-                                <g stroke="#94A3B8" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" style={{ filter: 'url(#pencil-texture)' }}>
+                                <g stroke="#94A3B8" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                     <circle cx="180" cy="50" r="20" strokeDasharray="130" className="animate-draw-sketch" style={{ animationDelay: '0.2s' }} />
                                     <path d="M10 140 L60 50 L140 140" strokeDasharray="300" className="animate-draw-sketch" style={{ animationDelay: '0.5s' }} />
                                     <path d="M100 140 L160 70 L230 160" strokeDasharray="300" className="animate-draw-sketch" style={{ animationDelay: '0.8s' }} />
@@ -46,7 +59,7 @@ export const GenImageCard: React.FC<GenImageCardProps> = ({ className }) => {
                                 </g>
                             </svg>
 
-                            {/* Layer B: Generative Art */}
+                            {/* Layer B: Generative Art - No blur */}
                             <div className="absolute inset-0 animate-art-reveal mix-blend-multiply">
                                 <svg className="w-full h-full" viewBox="0 0 240 180" preserveAspectRatio="xMidYMid meet">
                                     <defs>
@@ -95,7 +108,7 @@ export const GenImageCard: React.FC<GenImageCardProps> = ({ className }) => {
                         <div className="w-7 h-7 rounded-full bg-white shadow-md border border-slate-100 flex items-center justify-center text-slate-400 animate-float-delayed-2 hover:scale-110 hover:text-indigo-500 transition-all cursor-pointer">
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                         </div>
-                        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-pink-400 to-violet-500 shadow-lg shadow-purple-200 border border-white/50 flex items-center justify-center text-white animate-float-delayed hover:scale-110 transition-all cursor-pointer">
+                        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-pink-400 to-violet-500 shadow-lg shadow-purple-200/50 border border-white/50 flex items-center justify-center text-white animate-float-delayed hover:scale-110 transition-all cursor-pointer">
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                         </div>
                     </div>
@@ -111,9 +124,9 @@ export const GenImageCard: React.FC<GenImageCardProps> = ({ className }) => {
                     100% { stroke-dashoffset: 0; opacity: 1; }
                 }
                 @keyframes art-reveal {
-                    0% { opacity: 0; filter: grayscale(100%) blur(4px); transform: scale(0.95); }
-                    40% { opacity: 0; filter: grayscale(100%) blur(4px); transform: scale(0.95); }
-                    70% { opacity: 1; filter: grayscale(0%) blur(0px); transform: scale(1); }
+                    0% { opacity: 0; transform: scale(0.95); }
+                    40% { opacity: 0; transform: scale(0.95); }
+                    70% { opacity: 1; transform: scale(1); }
                     90% { opacity: 1; }
                     100% { opacity: 0; }
                 }
@@ -150,30 +163,38 @@ export const GenImageCard: React.FC<GenImageCardProps> = ({ className }) => {
                     50% { opacity: 0.7; }
                 }
                 .animate-draw-sketch {
-                    animation: draw-sketch 6s ease-out infinite;
+                    animation: draw-sketch 12s ease-out infinite;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
                 }
                 .animate-art-reveal {
-                    animation: art-reveal 6s ease-in-out infinite;
+                    animation: art-reveal 12s ease-in-out infinite;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
                 }
                 .animate-shimmer-sweep {
-                    animation: shimmer-sweep 6s ease-in-out infinite;
+                    animation: shimmer-sweep 12s ease-in-out infinite;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
                 }
                 .animate-progress-loading {
-                    animation: progress-loading 6s ease-in-out infinite;
+                    animation: progress-loading 12s ease-in-out infinite;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
                 }
                 .animate-blob {
-                    animation: blob 10s infinite;
+                    animation: blob 20s infinite;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
                 }
                 .animate-float-delayed {
-                    animation: float-delayed 4s ease-in-out infinite;
+                    animation: float-delayed 8s ease-in-out infinite;
                     animation-delay: 1s;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
                 }
                 .animate-float-delayed-2 {
-                    animation: float-delayed-2 4s ease-in-out infinite;
+                    animation: float-delayed-2 8s ease-in-out infinite;
                     animation-delay: 2s;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
                 }
                 .animate-pulse-slow {
-                    animation: pulse-slow 3s ease-in-out infinite;
+                    animation: pulse-slow 6s ease-in-out infinite;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
                 }
             `}</style>
         </div>

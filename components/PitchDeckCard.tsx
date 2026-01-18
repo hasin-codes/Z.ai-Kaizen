@@ -1,14 +1,34 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 interface PitchDeckCardProps {
     className?: string;
 }
 
 export const PitchDeckCard: React.FC<PitchDeckCardProps> = ({ className }) => {
+    const [animationsPaused, setAnimationsPaused] = useState(false);
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        // Pause after 5 loops (~50s for 10s animations)
+        const timer = setTimeout(() => {
+            setAnimationsPaused(true);
+        }, 50000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    const handleMouseEnter = () => setAnimationsPaused(false);
+    const handleMouseLeave = () => setAnimationsPaused(true);
+
     return (
-        <div className={`relative w-full aspect-[4/3] bg-white rounded-[1.25rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden flex flex-col group transition-all duration-700 hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-1 cursor-default ${className || ""}`}>
+        <div
+            ref={cardRef}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className={`relative w-full aspect-[4/3] bg-white rounded-[1.25rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden flex flex-col group transition-all duration-700 hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-1 cursor-default ${className || ""}`}
+        >
 
             {/* Main Screen Area */}
             <div className="relative flex-1 w-full bg-[#FAFAFA] overflow-hidden flex flex-col items-center justify-center p-2">
@@ -21,11 +41,11 @@ export const PitchDeckCard: React.FC<PitchDeckCardProps> = ({ className }) => {
                      }}>
                 </div>
 
-                {/* Background Atmosphere */}
-                <div className="absolute inset-0 opacity-40">
+                {/* Background Atmosphere - No blur */}
+                <div className="absolute inset-0 opacity-30">
                     <div className="absolute top-[-10%] right-[-10%] w-[80%] h-[80%] bg-gradient-to-b from-blue-50 via-indigo-50 to-violet-50"></div>
-                    <div className="absolute top-[30%] left-[5%] w-32 h-32 bg-blue-200/20 rounded-full blur-[50px] mix-blend-multiply animate-blob"></div>
-                    <div className="absolute bottom-[20%] right-[10%] w-36 h-36 bg-violet-200/20 rounded-full blur-[50px] mix-blend-multiply animate-blob" style={{animationDelay: '2s'}}></div>
+                    <div className="absolute top-[30%] left-[5%] w-32 h-32 bg-blue-200/15 rounded-full blur-0 mix-blend-multiply animate-blob"></div>
+                    <div className="absolute bottom-[20%] right-[10%] w-36 h-36 bg-violet-200/15 rounded-full blur-0 mix-blend-multiply animate-blob" style={{animationDelay: '2s'}}></div>
                 </div>
 
                 {/* The Application Window */}
@@ -51,8 +71,8 @@ export const PitchDeckCard: React.FC<PitchDeckCardProps> = ({ className }) => {
 
                         {/* Sidebar (Slide Navigator) */}
                         <div className="w-12 bg-slate-50 border-r border-slate-200 flex flex-col gap-1.5 p-1.5 shrink-0">
-                            <div className="w-full aspect-video bg-slate-200 rounded border border-slate-300 opacity-0 animate-thumb-in" style={{animationDelay: '0.2s'}}></div>
-                            <div className="w-full aspect-video bg-white rounded border-2 border-blue-400 opacity-0 animate-thumb-in" style={{animationDelay: '0.4s'}}>
+                            <div className="w-full aspect-video bg-slate-200 rounded border border-slate-300 opacity-0 animate-thumb-in" style={{animationDelay: '0.4s'}}></div>
+                            <div className="w-full aspect-video bg-white rounded border-2 border-blue-400 opacity-0 animate-thumb-in" style={{animationDelay: '0.8s'}}>
                                 <div className="w-full h-full p-0.5 flex flex-col gap-0.5">
                                     <div className="w-1/2 h-0.5 bg-slate-400 rounded-full"></div>
                                     <div className="flex gap-0.5 mt-auto">
@@ -62,8 +82,8 @@ export const PitchDeckCard: React.FC<PitchDeckCardProps> = ({ className }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="w-full aspect-video bg-slate-200 rounded border border-slate-300 opacity-0 animate-thumb-in" style={{animationDelay: '0.6s'}}></div>
-                            <div className="w-full aspect-video bg-slate-200 rounded border border-slate-300 opacity-0 animate-thumb-in" style={{animationDelay: '0.8s'}}></div>
+                            <div className="w-full aspect-video bg-slate-200 rounded border border-slate-300 opacity-0 animate-thumb-in" style={{animationDelay: '1.2s'}}></div>
+                            <div className="w-full aspect-video bg-slate-200 rounded border border-slate-300 opacity-0 animate-thumb-in" style={{animationDelay: '1.6s'}}></div>
                         </div>
 
                         {/* Main Canvas (Editor Stage) */}
@@ -73,19 +93,19 @@ export const PitchDeckCard: React.FC<PitchDeckCardProps> = ({ className }) => {
                             <div className="relative w-full aspect-video bg-white shadow-md border border-slate-100">
 
                                 {/* Slide Content: Header */}
-                                <div className="absolute top-2 left-3 w-24 h-2 bg-slate-800 rounded opacity-0 animate-content-in" style={{animationDelay: '1.2s'}}></div>
-                                <div className="absolute top-5 left-3 w-32 h-1 bg-slate-300 rounded opacity-0 animate-content-in" style={{animationDelay: '1.4s'}}></div>
+                                <div className="absolute top-2 left-3 w-24 h-2 bg-slate-800 rounded opacity-0 animate-content-in" style={{animationDelay: '2.4s'}}></div>
+                                <div className="absolute top-5 left-3 w-32 h-1 bg-slate-300 rounded opacity-0 animate-content-in" style={{animationDelay: '2.8s'}}></div>
 
                                 {/* Slide Content: Chart Area */}
-                                <div className="absolute bottom-3 right-3 w-20 h-14 flex items-end gap-0.5 opacity-0 animate-content-in" style={{animationDelay: '1.6s'}}>
-                                    <div className="w-1/4 bg-blue-300 h-[20%] animate-bar-grow" style={{animationDelay: '4.5s'}}></div>
-                                    <div className="w-1/4 bg-blue-400 h-[40%] animate-bar-grow" style={{animationDelay: '4.6s'}}></div>
-                                    <div className="w-1/4 bg-blue-500 h-[70%] animate-bar-grow" style={{animationDelay: '4.7s'}}></div>
-                                    <div className="w-1/4 bg-blue-600 h-[100%] animate-bar-grow" style={{animationDelay: '4.8s'}}></div>
+                                <div className="absolute bottom-3 right-3 w-20 h-14 flex items-end gap-0.5 opacity-0 animate-content-in" style={{animationDelay: '3.2s'}}>
+                                    <div className="w-1/4 bg-blue-300 h-[20%] animate-bar-grow" style={{animationDelay: '9s'}}></div>
+                                    <div className="w-1/4 bg-blue-400 h-[40%] animate-bar-grow" style={{animationDelay: '9.2s'}}></div>
+                                    <div className="w-1/4 bg-blue-500 h-[70%] animate-bar-grow" style={{animationDelay: '9.4s'}}></div>
+                                    <div className="w-1/4 bg-blue-600 h-[100%] animate-bar-grow" style={{animationDelay: '9.6s'}}></div>
                                 </div>
 
                                 {/* Slide Content: Key Metrics */}
-                                <div className="absolute bottom-3 left-3 flex flex-col gap-1 opacity-0 animate-content-in" style={{animationDelay: '1.8s'}}>
+                                <div className="absolute bottom-3 left-3 flex flex-col gap-1 opacity-0 animate-content-in" style={{animationDelay: '3.6s'}}>
                                     <div className="flex items-center gap-1">
                                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
                                         <div className="w-10 h-1 bg-slate-200 rounded-full"></div>
@@ -177,14 +197,38 @@ export const PitchDeckCard: React.FC<PitchDeckCardProps> = ({ className }) => {
                     66% { transform: translate(-15px, 15px) scale(0.9); }
                     100% { transform: translate(0px, 0px) scale(1); }
                 }
-                .animate-thumb-in { animation: thumb-in 0.5s ease-out forwards; }
-                .animate-content-in { animation: content-in 0.5s ease-out forwards; }
-                .animate-bar-grow { animation: bar-grow 1s ease-out backwards; }
-                .animate-present-ui { animation: present-ui 10s infinite; }
-                .animate-pitch-overlay { animation: pitch-overlay 10s infinite; }
-                .animate-wave { animation: wave 0.4s ease-in-out infinite; }
-                .animate-notification { animation: notification 10s cubic-bezier(0.34, 1.56, 0.64, 1) infinite; }
-                .animate-blob { animation: blob 10s infinite; }
+                .animate-thumb-in {
+                    animation: thumb-in 1s ease-out forwards;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
+                }
+                .animate-content-in {
+                    animation: content-in 1s ease-out forwards;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
+                }
+                .animate-bar-grow {
+                    animation: bar-grow 2s ease-out backwards;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
+                }
+                .animate-present-ui {
+                    animation: present-ui 20s infinite;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
+                }
+                .animate-pitch-overlay {
+                    animation: pitch-overlay 20s infinite;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
+                }
+                .animate-wave {
+                    animation: wave 0.4s ease-in-out infinite;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
+                }
+                .animate-notification {
+                    animation: notification 20s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
+                }
+                .animate-blob {
+                    animation: blob 20s infinite;
+                    animation-play-state: ${animationsPaused ? 'paused' : 'running'};
+                }
             `}</style>
         </div>
     );

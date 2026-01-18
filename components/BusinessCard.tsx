@@ -1,22 +1,47 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 interface BusinessCardProps {
     className?: string;
 }
 
 export const BusinessCard: React.FC<BusinessCardProps> = ({ className }) => {
+    const [animationsPaused, setAnimationsPaused] = useState(false);
+    const cardRef = useRef<HTMLDivElement>(null);
+    const loopCountRef = useRef(0);
+
+    useEffect(() => {
+        // Track animation iterations and pause after 5 loops (~30s for 6s animations)
+        const timer = setTimeout(() => {
+            setAnimationsPaused(true);
+        }, 30000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    const handleMouseEnter = () => setAnimationsPaused(false);
+    const handleMouseLeave = () => {
+        if (loopCountRef.current >= 5) {
+            setAnimationsPaused(true);
+        }
+    };
     return (
-        <div className={`relative w-full aspect-[4/3] bg-white rounded-[1.25rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden flex flex-col group transition-all duration-700 hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-1 cursor-default ${className || ""}`}>
+        <div
+            ref={cardRef}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className={`relative w-full aspect-[4/3] bg-white rounded-[1.25rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden flex flex-col group transition-all duration-700 hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-1 cursor-default ${className || ""}`}
+            style={{ animationPlayState: animationsPaused ? 'paused' : 'running' } as React.CSSProperties}
+        >
 
             {/* Visual Workspace Section */}
             <div className="relative flex-1 w-full overflow-hidden bg-[#FBFBFD] p-2.5">
 
-                {/* Subtle Depth Layers */}
+                {/* Subtle Depth Layers - No blur */}
                 <div className="absolute inset-0 transition-opacity duration-1000 group-hover:opacity-80">
-                    <div className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#F2F2F7] rounded-full blur-[80px]"></div>
-                    <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#E5E5EA] rounded-full blur-[60px]"></div>
+                    <div className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] bg-[#F2F2F7] rounded-full blur-0 opacity-30"></div>
+                    <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#E5E5EA] rounded-full blur-0 opacity-30"></div>
                 </div>
 
                 {/* 3D Focal Container */}
@@ -37,7 +62,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ className }) => {
                                     </div>
                                     <div className="flex items-end gap-0.5 h-3.5">
                                         {[0.2, 0.5, 0.3, 0.7, 0.4].map((delay, i) => (
-                                            <div key={i} className="w-0.5 bg-slate-300 rounded-full animate-[bar-bounce_1.5s_infinite_ease-in-out]" style={{ animationDelay: `${delay}s`, height: `${40 + delay * 60}%` }}></div>
+                                            <div key={i} className="w-0.5 bg-slate-300 rounded-full animate-[bar-bounce_6s_infinite_ease-in-out]" style={{ animationDelay: `${delay * 2}s`, height: `${40 + delay * 60}%` }}></div>
                                         ))}
                                     </div>
                                 </div>
@@ -67,7 +92,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ className }) => {
                                     <div className="flex gap-0.5">
                                         {[0, 1, 2].map((i) => (
                                             <div key={i} className="w-1.5 h-1.5 rounded-md border-2 border-slate-200 flex items-center justify-center relative overflow-hidden">
-                                                <div className="absolute inset-0 bg-slate-900 opacity-0 animate-[blueprint-fill_3s_infinite]" style={{ animationDelay: `${i * 0.4}s` }}></div>
+                                                <div className="absolute inset-0 bg-slate-900 opacity-0 animate-[blueprint-fill_10s_infinite]" style={{ animationDelay: `${i * 0.8}s` }}></div>
                                             </div>
                                         ))}
                                     </div>
@@ -80,7 +105,7 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ className }) => {
                                         <span className="text-[6px] text-slate-400 font-medium tracking-wide uppercase leading-tight">Market Clarity</span>
                                     </div>
                                     <div className="relative w-4 h-4 rounded-full border border-slate-200 flex items-center justify-center overflow-hidden">
-                                        <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0deg,#000_360deg)] opacity-[0.05] animate-[spin_4s_linear_infinite]"></div>
+                                        <div className="absolute inset-0 bg-[conic-gradient(from_0deg,transparent_0deg,#000_360deg)] opacity-[0.05] animate-[spin_12s_linear_infinite]"></div>
                                         <div className="w-1 h-1 bg-slate-900 rounded-full animate-pulse"></div>
                                     </div>
                                 </div>
@@ -91,8 +116,8 @@ export const BusinessCard: React.FC<BusinessCardProps> = ({ className }) => {
                 </div>
             </div>
 
-            {/* Subtle Interaction Highlight */}
-            <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.4)_0%,transparent_60%)]"></div>
+            {/* Subtle Interaction Highlight - No blur */}
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-[radial-gradient(circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(255,255,255,0.3)_0%,transparent_50%)] blur-0"></div>
         </div>
     );
 };

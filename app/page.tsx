@@ -27,7 +27,7 @@ export default function Home() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="mb-8 text-center md:text-left px-4 md:px-0"
+                    className="mb-8 text-center px-4 md:px-0"
                 >
                     <h1 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl text-zinc-900 tracking-tight leading-tight">
                         Good Morning, <span className="italic text-zinc-500">Hasin</span>

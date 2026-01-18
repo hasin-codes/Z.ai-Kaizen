@@ -43,7 +43,7 @@ export function AiPrompt({ prompt, setPrompt, handleGenerate, className }: AiPro
     ];
 
     return (
-        <div className={cn("relative z-20 w-full max-w-[1120px] px-4 md:px-0 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-200", className)}>
+        <div className={cn("relative z-20 w-full max-w-[896px] mx-auto px-4 md:px-0 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-200", className)}>
 
             {/* Removed top action bar */}
 

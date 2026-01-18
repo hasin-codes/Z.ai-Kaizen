@@ -1,26 +1,46 @@
 "use client";
 
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 interface LinkedinCardProps {
     className?: string;
 }
 
 export const LinkedinCard: React.FC<LinkedinCardProps> = ({ className }) => {
+    const [animationsPaused, setAnimationsPaused] = useState(false);
+    const cardRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        // Pause after 5 loops (~35s for 7s animations)
+        const timer = setTimeout(() => {
+            setAnimationsPaused(true);
+        }, 35000);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    const handleMouseEnter = () => setAnimationsPaused(false);
+    const handleMouseLeave = () => setAnimationsPaused(true);
+
     return (
-        <div className={`relative w-full aspect-[4/3] bg-white rounded-[1.25rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden flex flex-col group transition-all duration-700 hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-1 cursor-default ${className || ""}`}>
+        <div
+            ref={cardRef}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className={`relative w-full aspect-[4/3] bg-white rounded-[1.25rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden flex flex-col group transition-all duration-700 hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-1 cursor-default ${className || ""}`}
+        >
 
             {/* Visual Header */}
             <div className="relative flex-1 w-full bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/30 overflow-hidden font-sans p-2">
 
                 {/* Subtle Grid Background */}
-                <div className="absolute inset-0 opacity-[0.08]"
+                <div className="absolute inset-0 opacity-[0.05]"
                      style={{backgroundImage: 'radial-gradient(#94a3b8 1px, transparent 1px)', backgroundSize: '24px 24px'}}>
                 </div>
 
-                {/* Ambient Glows */}
-                <div className="absolute -top-10 -right-10 w-56 h-56 bg-blue-100/60 rounded-full blur-[70px]"></div>
-                <div className="absolute top-1/2 -left-20 w-48 h-48 bg-indigo-100/50 rounded-full blur-[60px]"></div>
+                {/* Ambient Glows - No blur */}
+                <div className="absolute -top-10 -right-10 w-56 h-56 bg-blue-100/40 rounded-full blur-0"></div>
+                <div className="absolute top-1/2 -left-20 w-48 h-48 bg-indigo-100/30 rounded-full blur-0"></div>
 
                 {/* 3D Container */}
                 <div className="absolute inset-0 flex items-center justify-center perspective-[800px] z-10">
@@ -42,7 +62,7 @@ export const LinkedinCard: React.FC<LinkedinCardProps> = ({ className }) => {
                             <div className="relative h-10 bg-white/60 rounded-lg flex items-center px-2 gap-2 border border-transparent hover:border-blue-200 transition-colors group/item">
                                 <div className="w-7 h-7 rounded-md bg-blue-50 flex items-center justify-center text-blue-600 relative overflow-hidden shrink-0">
                                     <div className="absolute inset-0 flex items-center justify-center">
-                                        <div className="w-5 h-5 border border-blue-200 rounded-full opacity-0 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+                                        <div className="w-5 h-5 border border-blue-200 rounded-full opacity-0 animate-[ping_4s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
                                     </div>
                                     <svg className="w-3.5 h-3.5 relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
@@ -65,7 +85,7 @@ export const LinkedinCard: React.FC<LinkedinCardProps> = ({ className }) => {
                                     <div className="text-[9px] font-bold text-slate-700 leading-none mb-1">Fact Verification</div>
                                     <div className="flex items-center gap-1">
                                         <div className="h-0.5 w-10 bg-slate-200 rounded-full overflow-hidden">
-                                            <div className="h-full bg-cyan-400 animate-[loading_1.5s_ease-in-out_infinite]"></div>
+                                            <div className="h-full bg-cyan-400 animate-[loading_3s_ease-in-out_infinite]"></div>
                                         </div>
                                         <span className="text-[7px] text-cyan-500 font-medium">100%</span>
                                     </div>
@@ -108,8 +128,8 @@ export const LinkedinCard: React.FC<LinkedinCardProps> = ({ className }) => {
                                 </div>
                             </div>
 
-                            {/* Scanning Beam Overlay */}
-                            <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-400/30 to-transparent blur-[1px] shadow-[0_0_10px_rgba(59,130,246,0.3)] animate-[scan-vertical_3.5s_linear_infinite] pointer-events-none"></div>
+                            {/* Scanning Beam Overlay - No blur */}
+                            <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-400/30 to-transparent blur-0 shadow-[0_0_5px_rgba(59,130,246,0.2)] animate-[scan-vertical_7s_linear_infinite] pointer-events-none"></div>
 
                         </div>
                     </div>
@@ -126,6 +146,18 @@ export const LinkedinCard: React.FC<LinkedinCardProps> = ({ className }) => {
                         0% { width: 0%; }
                         50% { width: 70%; }
                         100% { width: 100%; }
+                    }
+                    .animate-\\[scan-vertical_7s_linear_infinite\\] {
+                        animation: scan-vertical 7s linear infinite;
+                        animation-play-state: ${animationsPaused ? 'paused' : 'running'};
+                    }
+                    .animate-\\[loading_3s_ease-in-out_infinite\\] {
+                        animation: loading 3s ease-in-out infinite;
+                        animation-play-state: ${animationsPaused ? 'paused' : 'running'};
+                    }
+                    .animate-\\[ping_4s_cubic-bezier\\(0\\2c 0\\2c 0\\.2\\2c 1\\)_infinite\\] {
+                        animation: ping 4s cubic-bezier(0, 0, 0.2, 1) infinite;
+                        animation-play-state: ${animationsPaused ? 'paused' : 'running'};
                     }
                 `}</style>
             </div>

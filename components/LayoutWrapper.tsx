@@ -7,7 +7,7 @@ import { PanelLeft } from "lucide-react";
 import AmbientBackground from "@/components/AmbientBackground";
 
 export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
-    const [isExpanded, setIsExpanded] = useState(true);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     return (
         <div className="relative flex h-screen w-full bg-[var(--color-main-bg)] overflow-hidden">

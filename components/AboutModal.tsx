@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from "next/image";
+import { createPortal } from 'react-dom';
 
 interface AboutModalProps {
   isOpen: boolean;
@@ -10,6 +11,12 @@ interface AboutModalProps {
 
 const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -19,11 +26,11 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
     }
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
+  return createPortal(
     <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center p-4 transition-all duration-700 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+      className={`fixed inset-0 z-[99999] flex items-center justify-center p-4 transition-all duration-700 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
       {/* Overlay Backdrop */}
       <div className="absolute inset-0 bg-black/75" onClick={onClose} />
@@ -157,7 +164,7 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               onClick={onClose}
               className="w-full py-4 bg-white hover:bg-white/90 text-black rounded-xl font-bold text-[15px] transition-all duration-300 hover:shadow-[0_20px_40px_-10px_rgba(255,255,255,0.2)] active:scale-[0.98]"
             >
-              Get Started
+              Acknowledge
             </button>
           </div>
         </div>
@@ -191,7 +198,8 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           100% { opacity: 0.8; }
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 };
 

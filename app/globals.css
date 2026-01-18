@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Go3v2";
+  src: url("/go3v2.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-brand: #ff4d94;
   --color-sidebar-bg: #F5FEFD;
@@ -9,6 +17,7 @@
 
   --font-family-sans: var(--font-figtree), system-ui, -apple-system, sans-serif;
   --font-family-serif: var(--font-playfair), "Georgia", "Cambria", "Times New Roman", Times, serif;
+  --font-family-go3v2: "Go3v2", sans-serif;
 }
 
 :root {

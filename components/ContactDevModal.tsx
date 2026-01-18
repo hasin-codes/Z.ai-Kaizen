@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ContactDevModalProps {
   isOpen: boolean;
@@ -9,6 +10,12 @@ interface ContactDevModalProps {
 
 const ContactDevModal: React.FC<ContactDevModalProps> = ({ isOpen, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -18,11 +25,11 @@ const ContactDevModal: React.FC<ContactDevModalProps> = ({ isOpen, onClose }) =>
     }
   }, [isOpen]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
+  return createPortal(
     <div
-      className={`fixed inset-0 z-[9999] flex items-center justify-center p-4 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 backdrop-blur-3xl' : 'opacity-0 backdrop-blur-0'}`}
+      className={`fixed inset-0 z-[99999] flex items-center justify-center p-4 transition-all duration-700 ease-out ${isVisible ? 'opacity-100 backdrop-blur-3xl' : 'opacity-0 backdrop-blur-0'}`}
     >
       {/* Deep Overlay */}
       <div className="absolute inset-0 bg-black/80" onClick={onClose} />
@@ -124,7 +131,7 @@ const ContactDevModal: React.FC<ContactDevModalProps> = ({ isOpen, onClose }) =>
               onClick={onClose}
               className="w-full py-4 bg-white text-black rounded-xl font-bold text-[15px] transition-all duration-300 hover:shadow-[0_20px_40px_-10px_rgba(255,255,255,0.2)] active:scale-[0.98] group"
             >
-              Understand & Close
+              Got it
             </button>
           </div>
         </div>
@@ -140,7 +147,8 @@ const ContactDevModal: React.FC<ContactDevModalProps> = ({ isOpen, onClose }) =>
           100% { transform: scale(1.1); opacity: 0.2; }
         }
       `}</style>
-    </div>
+    </div>,
+    document.body
   );
 };
 

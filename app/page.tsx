@@ -34,13 +34,18 @@ export default function Home() {
                     </h1>
                 </motion.div>
 
-                <div className="w-full">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.15, ease: "easeOut" }}
+                    className="w-full"
+                >
                     <AiPrompt
                         prompt={prompt}
                         setPrompt={setPrompt}
                         handleGenerate={handleGenerate}
                     />
-                </div>
+                </motion.div>
 
                 {/* Business Cards Section */}
                 <motion.div

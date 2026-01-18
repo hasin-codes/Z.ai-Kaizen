@@ -37,7 +37,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
 
                     {/* Main content with scroll containment */}
                     <main className="relative z-10 flex-1 flex flex-col items-center justify-center p-4 overflow-hidden">
-                        {/* Toggle Button */}
+                        {/* Toggle Button - Manual override */}
                         <button
                             onClick={() => setIsExpanded(!isExpanded)}
                             className="absolute top-4 left-4 p-2 hover:bg-black/5 rounded-md transition-colors text-black/40 hover:text-black z-50"

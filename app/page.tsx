@@ -8,12 +8,18 @@ import { BusinessCard } from "@/components/BusinessCard";
 import { GenImageCard } from "@/components/GenImageCard";
 import { PitchDeckCard } from "@/components/PitchDeckCard";
 import { LinkedinCard } from "@/components/LinkedinCard";
+import AboutModal from "@/components/AboutModal";
+import ContactDevModal from "@/components/ContactDevModal";
+import { useAboutModal } from "@/hooks/useAboutModal";
+import { useContactDevModal } from "@/hooks/useContactDevModal";
 
 import { motion } from "framer-motion";
 
 export default function Home() {
     const [prompt, setPrompt] = useState("");
     const router = useRouter();
+    const { isOpen, handleClose, handleOpen } = useAboutModal();
+    const { isOpen: isContactOpen, handleClose: handleContactClose, handleOpen: handleContactOpen } = useContactDevModal();
 
     const handleGenerate = () => {
         if (!prompt.trim()) return;
@@ -21,7 +27,7 @@ export default function Home() {
     };
 
     return (
-        <LayoutWrapper>
+        <LayoutWrapper onUpgradeClick={handleOpen}>
             <div className="flex flex-col h-full w-full max-w-6xl mx-auto pt-[15vh]">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -55,14 +61,19 @@ export default function Home() {
                     className="mt-12 px-4 md:px-0"
                 >
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        <BusinessCard />
-                        <GenImageCard />
-                        <PitchDeckCard />
-                        <LinkedinCard />
-
+                        <BusinessCard onClick={handleContactOpen} />
+                        <GenImageCard onClick={handleContactOpen} />
+                        <PitchDeckCard onClick={handleContactOpen} />
+                        <LinkedinCard onClick={handleContactOpen} />
                     </div>
                 </motion.div>
             </div>
+
+            {/* About Modal */}
+            <AboutModal isOpen={isOpen} onClose={handleClose} />
+
+            {/* Contact Developer Modal */}
+            <ContactDevModal isOpen={isContactOpen} onClose={handleContactClose} />
         </LayoutWrapper>
     );
 }

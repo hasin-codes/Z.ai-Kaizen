@@ -6,6 +6,9 @@
   --color-main-bg: #F5FEFD;
   --color-border: transparent;
   --color-card-bg: rgba(255, 255, 255, 0.4);
+
+  --font-family-sans: var(--font-figtree), system-ui, -apple-system, sans-serif;
+  --font-family-serif: var(--font-playfair), "Georgia", "Cambria", "Times New Roman", Times, serif;
 }
 
 :root {
@@ -21,7 +24,7 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-figtree), system-ui, -apple-system, sans-serif;
 }
 
 * {

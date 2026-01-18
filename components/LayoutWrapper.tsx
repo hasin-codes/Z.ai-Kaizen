@@ -6,14 +6,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PanelLeft } from "lucide-react";
 import AmbientBackground from "@/components/AmbientBackground";
 
-export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
+export default function LayoutWrapper({ children, onUpgradeClick }: { children: React.ReactNode; onUpgradeClick?: () => void }) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
         <div className="relative flex h-screen w-full bg-[var(--color-main-bg)] overflow-hidden">
             {/* Topbar: Fixed at the top, z-10, sits behind Sidebar when expanded */}
             <div className="absolute top-0 left-0 w-full z-10">
-                <Topbar isExpanded={isExpanded} />
+                <Topbar isExpanded={isExpanded} onUpgradeClick={onUpgradeClick} />
             </div>
 
             {/* Sidebar: Flex item, Z-20 to cover Topbar, smoothly transitions width */}

@@ -4,9 +4,10 @@ import React, { useState, useRef, useEffect } from "react";
 
 interface LinkedinCardProps {
     className?: string;
+    onClick?: () => void;
 }
 
-export const LinkedinCard: React.FC<LinkedinCardProps> = ({ className }) => {
+export const LinkedinCard: React.FC<LinkedinCardProps> = ({ className, onClick }) => {
     const [animationsPaused, setAnimationsPaused] = useState(false);
     const cardRef = useRef<HTMLDivElement>(null);
 
@@ -27,7 +28,8 @@ export const LinkedinCard: React.FC<LinkedinCardProps> = ({ className }) => {
             ref={cardRef}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className={`relative w-full aspect-[4/3] bg-white rounded-[1.25rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden flex flex-col group transition-all duration-700 hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-1 cursor-default ${className || ""}`}
+            className={`relative w-full aspect-[4/3] bg-white rounded-[1.25rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden flex flex-col group transition-all duration-700 hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-1 cursor-pointer ${className || ""}`}
+            onClick={onClick}
         >
 
             {/* Visual Header */}

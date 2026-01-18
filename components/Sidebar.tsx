@@ -21,12 +21,14 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface SidebarProps {
     isExpanded: boolean;
 }
 
 export default function Sidebar({ isExpanded }: SidebarProps) {
+    const router = useRouter();
     const [isFavoritesOpen, setIsFavoritesOpen] = useState(true);
     const [isRecentsOpen, setIsRecentsOpen] = useState(true);
     const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
@@ -68,12 +70,15 @@ export default function Sidebar({ isExpanded }: SidebarProps) {
                 {/* Top Section */}
                 <div className="p-4 flex flex-col gap-6">
                     {/* Logo Area */}
-                    <div className="h-12 flex items-center overflow-hidden">
+                    <button
+                        onClick={() => router.push("/")}
+                        className="h-12 flex items-center overflow-hidden hover:opacity-80 transition-opacity"
+                    >
                         <div className="flex items-center gap-3">
                             <Image src="/Kaizen.png" alt="Logo" width={40} height={40} className="rounded-lg" />
                             <span className="font-bold text-2xl tracking-tight text-zinc-900">Z.ai</span>
                         </div>
-                    </div>
+                    </button>
 
                     {/* New Chat Button */}
                     <button className="flex items-center justify-center gap-2 bg-zinc-900 text-white hover:bg-black font-semibold w-full py-3.5 rounded-xl transition-all shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]">

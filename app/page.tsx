@@ -4,6 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import LayoutWrapper from "@/components/LayoutWrapper";
 import { AiPrompt } from "@/components/AiPrompt";
+import { BusinessCard } from "@/components/BusinessCard";
+import { GenImageCard } from "@/components/GenImageCard";
+import { PitchDeckCard } from "@/components/PitchDeckCard";
+import { LinkedinCard } from "@/components/LinkedinCard";
+
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -17,7 +22,7 @@ export default function Home() {
 
     return (
         <LayoutWrapper>
-            <div className="flex flex-col h-full w-full max-w-4xl mx-auto pt-[15vh]">
+            <div className="flex flex-col h-full w-full max-w-6xl mx-auto pt-[15vh]">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -36,6 +41,22 @@ export default function Home() {
                         handleGenerate={handleGenerate}
                     />
                 </div>
+
+                {/* Business Cards Section */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+                    className="mt-12 px-4 md:px-0"
+                >
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        <BusinessCard />
+                        <GenImageCard />
+                        <PitchDeckCard />
+                        <LinkedinCard />
+
+                    </div>
+                </motion.div>
             </div>
         </LayoutWrapper>
     );

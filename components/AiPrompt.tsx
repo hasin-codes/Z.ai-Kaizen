@@ -36,7 +36,7 @@ export function AiPrompt({ prompt, setPrompt, handleGenerate, className }: AiPro
     const actions = [
         { icon: Search, label: "Search", id: "search" },
         { icon: Globe, label: "DeepThink", id: "deepthink" },
-        { icon: Image, label: "Generate Image", id: "image" },
+
         { icon: Presentation, label: "Slide Deck", id: "slides" },
         { icon: Code2, label: "Code", id: "code" },
         { icon: Layers, label: "Full Stack", id: "fullstack" },

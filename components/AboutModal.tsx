@@ -23,29 +23,29 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-[100] flex items-center justify-center p-4 transition-all duration-700 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+      className={`fixed inset-0 z-[9999] flex items-center justify-center p-4 transition-all duration-700 ease-out ${isVisible ? 'opacity-100' : 'opacity-0'}`}
     >
       {/* Overlay Backdrop */}
       <div className="absolute inset-0 bg-black/75" onClick={onClose} />
 
       {/* Main Modal Container */}
       <div
-        className={`relative w-full max-w-[900px] bg-white rounded-[1.4rem] shadow-[0_120px_240px_-50px_rgba(0,0,0,1)] flex overflow-hidden transform transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${isVisible ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-24 opacity-0'}`}
+        className={`relative w-full max-w-[900px] bg-[#0A0A0B] rounded-[2rem] shadow-[0_120px_240px_-50px_rgba(0,0,0,1)] flex overflow-hidden transform transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] border border-white/10 ${isVisible ? 'scale-100 translate-y-0 opacity-100' : 'scale-95 translate-y-24 opacity-0'}`}
         onClick={(e) => e.stopPropagation()}
       >
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-8 right-8 z-50 text-slate-400 hover:text-slate-900 transition-colors p-2"
+          className="absolute top-8 right-8 z-50 text-white/20 hover:text-white transition-colors p-2"
         >
-          <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
         {/* Left Side: Artistic Galactic Portal with Warm Pink Ambience */}
-        <div className="relative w-[45%] bg-[#020206] overflow-hidden flex flex-col select-none border-r border-white/[0.03] shrink-0">
+        <div className="relative w-[45%] bg-[#020206] overflow-hidden flex flex-col select-none border-b md:border-b-0 md:border-r border-white/5 shrink-0">
 
           {/* Base Grainy Texture Layer */}
           <div className="absolute inset-0 opacity-[0.3] mix-blend-overlay pointer-events-none"
@@ -126,9 +126,9 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         {/* Right Side: Information Content */}
-        <div className="flex-1 bg-white p-12 pl-16 pr-12 flex flex-col relative overflow-y-auto">
+        <div className="flex-1 bg-[#0A0A0B] p-12 pl-16 pr-12 flex flex-col relative overflow-y-auto">
           <div className="flex-1">
-            <h3 className="text-[1.8rem] font-bold text-slate-900 mb-8 tracking-tight font-serif">Introducing Z.ai Kaizen</h3>
+            <h3 className="text-[1.8rem] font-bold text-white/90 mb-8 tracking-tight font-serif">Introducing Z.ai Kaizen</h3>
 
             <ul className="space-y-6">
               {[
@@ -142,23 +142,22 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
                   className={`flex gap-4 transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'}`}
                   style={{ transitionDelay: `${400 + i * 150}ms` }}
                 >
-                  <div className="w-2 h-2 rounded-full bg-slate-950 mt-[9px] shrink-0 shadow-sm" />
+                  <div className="w-2 h-2 rounded-full bg-rose-400 mt-[9px] shrink-0 shadow-sm" />
                   <div className="text-[14px] leading-relaxed">
-                    <span className="font-extrabold text-slate-950">{item.title}: </span>
-                    <span className="text-slate-600 font-medium">{item.desc}</span>
+                    <span className="font-extrabold text-white/90">{item.title}: </span>
+                    <span className="text-white/60 font-medium">{item.desc}</span>
                   </div>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="mt-8 sticky bottom-0 bg-white pt-3">
+          <div className="mt-8 sticky bottom-0 bg-[#0A0A0B] pt-3">
             <button
               onClick={onClose}
-              className="w-full py-5 bg-[#08080C] hover:bg-black text-white rounded-[1rem] font-bold text-[17px] transition-all duration-500 hover:shadow-[0_40px_80px_-20px_rgba(219,39,119,0.3)] active:scale-[0.98] relative overflow-hidden group/btn shadow-xl"
+              className="w-full py-4 bg-white hover:bg-white/90 text-black rounded-xl font-bold text-[15px] transition-all duration-300 hover:shadow-[0_20px_40px_-10px_rgba(255,255,255,0.2)] active:scale-[0.98]"
             >
-              <span className="relative z-10">Acknowledged</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.08] to-transparent -translate-x-full group-hover/btn:animate-[shimmer-btn_3s_infinite_ease-in-out]" />
+              Get Started
             </button>
           </div>
         </div>
